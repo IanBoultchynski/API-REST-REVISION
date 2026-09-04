@@ -28,6 +28,33 @@ namespace API_REST_Revision
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Marque>(entity =>
+            {
+                entity.HasKey(e => e.IdMarque).HasName("pk_marque");
+            });
+
+            modelBuilder.Entity<TypeProduit>(entity =>
+            {
+                entity.HasKey(e => e.IdTypeProduit).HasName("pk_typeproduit");
+            });
+
+            modelBuilder.Entity<Produit>(entity =>
+            {
+                entity.HasKey(e => e.IdProduit).HasName("pk_produit");
+
+                entity.HasOne(d => d.IdMarqueNavigation)
+                    .WithMany(p => p.Produits)
+                    .HasForeignKey(d => d.IdMarque)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_produit_marque");
+
+                entity.HasOne(d => d.IdTypeProduitNavigation)
+                    .WithMany(p => p.Produits)
+                    .HasForeignKey(d => d.IdTypeProduit)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_produit_typeproduit");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

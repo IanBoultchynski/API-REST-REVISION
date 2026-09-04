@@ -28,6 +28,12 @@ namespace API_REST_REVISION.Models
         [Column("uriphoto")]
         public string? UriPhoto { get; set; }
 
+        [Column("idtypeproduit")]
+        public int IdTypeProduit { get; set; }
+
+        [Column("idmarque")]
+        public int IdMarque { get; set; }
+
         [ForeignKey("idtypeproduit")]
         [InverseProperty(nameof(TypeProduit.Produits))]
         public virtual TypeProduit IdTypeProduitNavigation { get; set; } = null;
