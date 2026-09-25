@@ -1,5 +1,7 @@
 // Controllers/ProduitsController.cs
 using API_REST_REVISION.Models;
+using API_REST_REVISION.Models.DTO;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
@@ -7,47 +9,51 @@ using Microsoft.AspNetCore.Mvc;
 public class ProduitsController : ControllerBase
 {
     private readonly IProduitRepository _repository;
+    private readonly IMapper _mapper;
 
-    public ProduitsController(IProduitRepository repository)
+    public ProduitsController(IProduitRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Produit>>> GetProduits()
+    public async Task<ActionResult<IEnumerable<ProduitDto>>> GetProduits()
     {
-        return Ok(await _repository.GetAllWithDetailsAsync());
+        var produits = await _repository.GetAllWithDetailsAsync();
+        return Ok(_mapper.Map<IEnumerable<ProduitDto>>(produits));
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Produit>> GetProduit(int id)
+    public async Task<ActionResult<ProduitDto>> GetProduit(int id)
     {
         var produit = await _repository.GetByIdWithDetailsAsync(id);
         if (produit == null) return NotFound();
-        return Ok(produit);
+        return Ok(_mapper.Map<ProduitDto>(produit));
     }
 
     [HttpGet("marque/{idMarque}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Produit>>> GetByMarque(int idMarque)
+    public async Task<ActionResult<IEnumerable<ProduitDto>>> GetByMarque(int idMarque)
     {
-        return Ok(await _repository.GetByMarqueAsync(idMarque));
+        var produits = await _repository.GetByMarqueAsync(idMarque);
+        return Ok(_mapper.Map<IEnumerable<ProduitDto>>(produits));
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Produit>> PostProduit(Produit p)
+    public async Task<ActionResult<ProduitDto>> PostProduit(Produit p)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         await _repository.AddAsync(p);
         await _repository.SaveAsync();
 
-        return CreatedAtAction(nameof(GetProduit), new { id = p.IdProduit }, p);
+        return CreatedAtAction(nameof(GetProduit), new { id = p.IdProduit }, _mapper.Map<ProduitDto>(p));
     }
 
     [HttpPut("{id}")]
