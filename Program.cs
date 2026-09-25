@@ -9,10 +9,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 builder.Services.AddScoped<IProduitRepository, ProduitRepository>();
 builder.Services.AddDbContext<ProduitsDbContext>();
 
+var app = builder.Build();
 
 
 
