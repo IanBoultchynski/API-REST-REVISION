@@ -19,16 +19,29 @@ builder.Services.AddDbContext<ProduitsDbContext>(options =>
 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<API_REST_REVISION.Models.MappingProfile>());
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ProduitsDbContext>();
+    context.Database.EnsureDeleted();
     context.Database.EnsureCreated();
 }
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
