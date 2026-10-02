@@ -28,11 +28,11 @@ public class ProduitsController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProduitDto>> GetProduit(int id)
+    public async Task<ActionResult<ProduitDetailDto>> GetProduit(int id)
     {
         var produit = await _repository.GetByIdWithDetailsAsync(id);
         if (produit == null) return NotFound();
-        return Ok(_mapper.Map<ProduitDto>(produit));
+        return Ok(_mapper.Map<ProduitDetailDto>(produit));
     }
 
     [HttpGet("marque/{idMarque}")]

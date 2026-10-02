@@ -13,6 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     ?? "Server=localhost;port=5432;Database=ProduitsDB;uid=postgres;password=postgres;";
 
 builder.Services.AddScoped<IProduitRepository, ProduitRepository>();
+builder.Services.AddScoped<IMarqueRepository, MarqueRepository>();
 builder.Services.AddDbContext<ProduitsDbContext>(options => 
     options.UseNpgsql(connectionString));
 
