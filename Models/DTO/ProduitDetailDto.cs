@@ -1,4 +1,4 @@
-﻿namespace API_REST_REVISION.Models.DTO
+namespace API_REST_REVISION.Models.DTO
 {
     public class ProduitDetailDto
     {
@@ -10,6 +10,11 @@
         public string? Nomphoto { get; set; }
         public string? Uriphoto { get; set; }
         public int? Stock { get; set; }
+        public int StockReel { get; set; }
+        public int StockMin { get; set; }
+        public int StockMax { get; set; }
+        public int IdTypeProduit { get; set; }
+        public int IdMarque { get; set; }
         public bool EnReappro { get; set; }
     }
 

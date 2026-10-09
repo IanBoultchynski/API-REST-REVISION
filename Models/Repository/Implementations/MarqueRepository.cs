@@ -11,6 +11,8 @@ public class MarqueRepository : IMarqueRepository
         _context = context;
     }
 
+
+
     public async Task<IEnumerable<Marque>> GetAllAsync() => await _context.Marques.ToListAsync();
 
     public async Task<Marque?> GetByIdAsync(int id) => await _context.Marques.FindAsync(id);

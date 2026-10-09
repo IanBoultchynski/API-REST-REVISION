@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +20,7 @@ namespace API_REST_REVISION.Models
 
 
         [InverseProperty(nameof(Produit.IdTypeProduitNavigation))]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Produit> Produits { get; set; } = new List<Produit>();
 
 

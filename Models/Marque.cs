@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,6 +18,7 @@ namespace API_REST_REVISION.Models
         public string? NomMarque { get; set; }
 
         [InverseProperty(nameof(Produit.IdMarqueNavigation))]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Produit> Produits { get; set; } = new List<Produit>();
 
     }
